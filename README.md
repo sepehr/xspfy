@@ -10,6 +10,9 @@ https://www.last.fm/user/lajevardi/library/playlists
 The built-in export feature does not work anymore as the Playlists API is gone. Consider using a workaround to scrape and save data locally:  
 http://jsbin.com/vivucuceco/1/edit?html,output
 
+Convert CSV files to XSPF playlists:
+https://github.com/kevlened/csvToXspf
+
 ###Usage
 `python xspfy.py XSPF_PATH SPOTIFY_USERNAME`
 
