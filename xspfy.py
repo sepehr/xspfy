@@ -22,12 +22,7 @@ def spotify_uri(artist, track, album = False):
     '''
     spotify = spotipy.Spotify()
 
-    # Prep
-    track  = track.replace('&amp', '&')
-    artist = artist.replace('&amp', '&')
-
     if album:
-        album = album.replace('&amp', '&')
         query = 'artist:%s album:%s %s' % (artist, album, track)
     else:
         query = 'artist:%s %s' % (artist, track)
@@ -146,9 +141,6 @@ def main():
     # Remove this, seriously!
     raw_input('Press any key to continue...')
 
-    # -------------------------------------------------------------------------
-    # Get Last.fm playlists
-    # -------------------------------------------------------------------------
     spotify_pls = []
     xspf_paths  = xspf_playlist_paths(xspf_path)
 
@@ -157,9 +149,10 @@ def main():
 
     print 'Found %d XSPF playlist(s)' % len(xspf_paths)
 
-    # -------------------------------------------------------------------------
-    # Process each filepath into Spotify's equivalent URIs
-    # -------------------------------------------------------------------------
+    print '\nConnecting to Spotify API endpoint, authorizing as "%s"...' % spotify_user
+
+    token = spotify_auth_token(spotify_user, SPOTIFY_AUTH_SCOPE, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI)
+
     for xspf_path in xspf_paths:
         print '\nProcessing "%s"...' % xspf_path
 
@@ -169,7 +162,6 @@ def main():
             print '[ERROR] Could not fetch tracks for this playlist, is there any? Skipping...'
             continue
 
-        # Process each track and build spotify_pl playlist
         failed = count = 0
         pl_len = len(pl.track)
         spotify_pl = {
@@ -197,29 +189,19 @@ def main():
 
         print '%d tracks not found on Spotify.' % failed
 
-    # -------------------------------------------------------------------------
-    # Build Spotify playlists
-    # -------------------------------------------------------------------------
-    print '\n\nConnecting to Spotify API endpoint, authorizing as "%s"...' % spotify_user
+        print 'Creating Spotify playlist with %d found tracks: "%s"' % (len(spotify_pl['tracks']), spotify_pl['title'])
 
-    # Authorize user
-    token = spotify_auth_token(spotify_user, SPOTIFY_AUTH_SCOPE, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI)
-
-    for pl in spotify_pls:
-        print '\n\tCreating Spotify playlist with %d found tracks: "%s"' % (len(pl['tracks']), pl['title'])
-
-        pl_id = spotify_playlist_create(token, spotify_user, pl['title'])
+        pl_id = spotify_playlist_create(token, spotify_user, spotify_pl['title'])
         if not pl_id:
-            print '\t[ERROR] Could not create Spotify playlist. Skipping...'
+            print '[ERROR] Could not create Spotify playlist. Skipping...'
             continue
 
-        success = spotify_playlist_add(token, spotify_user, pl_id, pl['tracks'])
+        success = spotify_playlist_add(token, spotify_user, pl_id, spotify_pl['tracks'])
         if not success:
-            print '\t[ERROR] Could not add tracks to the playlist. Please make sure to REMOVE the playlist manually.'
+            print '[ERROR] Could not add tracks to the playlist. Please make sure to REMOVE the playlist manually.'
             continue
 
-        print '\t[SUCCESS] Enjoy!'
-    print
+        print '[SUCCESS] Enjoy!'
 
 
 if __name__ == '__main__':
