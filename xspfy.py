@@ -82,26 +82,6 @@ def spotify_auth_token(username, auth_scope, client_key, client_secret, redirect
     return spotipy.util.prompt_for_user_token(username, auth_scope, client_key, client_secret, redirect_uri)
 
 
-# def spotify_playlist(filepath, delimiter = '\t'):
-#     '''
-#     Gets a text file and prints out a Spotify playlist to copy and paste.
-#     '''
-#     reader = csv.reader(open(filepath), delimiter = delimiter)
-
-#     for line in reader:
-#         # Skip file header
-#         if line[0].lower() == 'track':
-#             continue
-
-#         track  = line[0]
-#         artist = line[1]
-#         uri    = spotify_uri(artist, track)
-
-#         if uri:
-#             print uri
-#         else:
-#             print 'NOT FOUND: %s - %s' % (track, artist)
-
 def xspf_playlist_paths(path):
     '''
     Reads a path and scans found XSPF playlists. Returns an array of XSPF paths.
