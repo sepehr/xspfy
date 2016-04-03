@@ -48,12 +48,16 @@ def spotify_playlist_create(token, username, name, public = True):
     Creates a public Spotify playlist using its API and returns its ID.
     '''
     spotify  = spotipy.Spotify(token)
-    response = spotify.user_playlist_create(username, name, public = public)
 
-    if not response or not response['id']:
+    try:
+        response = spotify.user_playlist_create(username, name, public = public)
+
+        if not response or not response['id']:
+            return False
+
+        return response['id']
+    except:
         return False
-
-    return response['id']
 
 
 def spotify_playlist_add(token, username, playlist_id, tracks):
@@ -63,16 +67,19 @@ def spotify_playlist_add(token, username, playlist_id, tracks):
     spotify = spotipy.Spotify(token)
 
     # Add the first 100 tracks
-    response = spotify.user_playlist_add_tracks(username, playlist_id, tracks[:100])
+    try:
+        response = spotify.user_playlist_add_tracks(username, playlist_id, tracks[:100])
 
-    if not response['snapshot_id']:
+        if not response['snapshot_id']:
+            return False
+
+        # A maximum of 100 tracks can be added per request, so:
+        if len(tracks) > 100:
+            response = spotify_playlist_add(token, username, playlist_id, tracks[100:])
+
+        return response.get('snapshot_id', False)
+    except:
         return False
-
-    # A maximum of 100 tracks can be added per request, so:
-    if len(tracks) > 100:
-        response = spotify_playlist_add(token, username, playlist_id, tracks[100:])
-
-    return response.get('snapshot_id', False)
 
 
 def spotify_auth_token(username, auth_scope, client_key, client_secret, redirect_uri):
