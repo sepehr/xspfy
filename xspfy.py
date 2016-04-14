@@ -14,7 +14,7 @@ import os
 SPOTIFY_CLIENT_ID     = '6508015df04044ffa68efaa4cc4ac8c3'
 SPOTIFY_CLIENT_SECRET = '6186195c2bf34bd6a2caf05d76f157fc'
 SPOTIFY_AUTH_SCOPE    = 'playlist-modify-public playlist-modify-private'
-SPOTIFY_REDIRECT_URI  = 'https://sepehr.github.io/laspotipy/'
+SPOTIFY_REDIRECT_URI  = 'https://sepehr.github.io/laspotipy'
 
 def spotify_uri(artist, track, album = False):
     '''
