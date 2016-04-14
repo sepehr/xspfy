@@ -2,7 +2,7 @@
 
 Migrates XSPF playlists to Spotify where they can grow old.
 
-It's the ancessor of [Laspotipy](https://github.com/sepehr/laspotipy). Laspotipy does not work anymore as Last.fm's Playlist API does not work anymore. Exported XSPF playlists can be imported using this utility instead.
+It's the ancestor of [Laspotipy](https://github.com/sepehr/laspotipy). Laspotipy does not work anymore as Last.fm's Playlist API does not work anymore. Exported XSPF playlists can be imported using this utility instead.
 
 As of the new fuckin lastfm beta, playlists can be found on the old website:  
 https://www.last.fm/user/lajevardi/library/playlists  
