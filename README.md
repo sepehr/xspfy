@@ -1,4 +1,4 @@
-#XSPFy
+# XSPFy
 
 Migrates XSPF playlists to Spotify where they can grow old.
 
@@ -16,13 +16,13 @@ https://github.com/kevlened/csvToXspf
 To export your Spotify playlists:  
 https://rawgit.com/watsonbox/exportify/master/exportify.html
 
-###Usage
+### Usage
 `python xspfy.py XSPF_PATH SPOTIFY_USERNAME`
 
-###Screenshot
+### Screenshot
 ![XSPFy screenshot](https://hostr.co/file/AsJX2zukaVkt/xspfy.png)
 
-###Installation
+### Installation
     pip install requests spotipy
     git clone https://github.com/sepehr/xspfy.git
     chmod +x ./xspfy/xspfy.py
